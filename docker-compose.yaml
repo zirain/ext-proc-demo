@@ -1,16 +1,17 @@
-version: '3'
-
 services:
   ext_proc_demo_envoy:
-    image: istio/proxyv2:1.15.0
+    image: istio/proxyv2:1.21.0
     container_name: ext_proc_demo_envoy
     entrypoint: /usr/local/bin/envoy
     command: [
       "--config-path", "/etc/envoy/envoy.yaml",
       "--log-level", "${ENVOY_LOG_LEVEL:-info}",
       "--service-cluster", "envoy-front",
-      "--service-node", "envoy-front"
+      "--service-node", "envoy-front",
+      "--component-log-level", "filter:debug",
     ]
+    environment:
+      ENVOY_LOG_LEVEL: debug
     ports:
       - 10000:10000
       - 15000:15000
@@ -25,6 +26,7 @@ services:
       context: ./service
     environment:
       CLUSTER_NAME: "service"
+      LOG_LEVEL: "debug"
     expose:
       - 8000
       - 8080

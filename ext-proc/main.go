@@ -118,8 +118,9 @@ func (s *server) Process(srv extProcPb.ExternalProcessor_ProcessServer) error {
 								SetHeaders: []*configPb.HeaderValueOption{
 									{
 										Header: &configPb.HeaderValue{
-											Key:   "x-went-into-req-headers",
-											Value: "true",
+											Key: "x-went-into-req-headers",
+											// Value:    "true",
+											RawValue: []byte("true"),
 										},
 									},
 								},
